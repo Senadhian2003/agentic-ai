@@ -10,7 +10,7 @@ SYSTEM_PROMPT = (
 )
 
 agent = create_agent(
-    model="google_genai:gemini-flash-latest",
+    model="google_genai:gemini-3.5-flash-lite",
     tools=[search_web, send_discord_message],
     system_prompt=SYSTEM_PROMPT,
 )
@@ -18,4 +18,10 @@ agent = create_agent(
 
 def run_agent(user_message: str) -> str:
     result = agent.invoke({"messages": [{"role": "user", "content": user_message}]})
-    return result["messages"][-1].content
+    content = result["messages"][-1].content
+
+    if isinstance(content, list):
+        return "".join(
+            block.get("text", "") for block in content if isinstance(block, dict)
+        )
+    return content
