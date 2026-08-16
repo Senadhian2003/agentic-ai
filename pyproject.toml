@@ -12,4 +12,19 @@ dependencies = [
     "langchain>=0.3.27",
     "langchain-anthropic>=0.3.14",
     "langchain-google-genai>=2.0.0",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.32.0",
 ]
+
+[project.scripts]
+start = "api:start"
+
+[tool.uv]
+package = true
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+include = ["*.py", "tools/*.py"]
